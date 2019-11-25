@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:12
 
 RUN apt-get update && apt-get install -y python3
 RUN curl -sO https://bootstrap.pypa.io/get-pip.py
