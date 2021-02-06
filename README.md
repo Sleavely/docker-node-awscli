@@ -41,3 +41,7 @@ jobs:
     - run: npm run build-app-test
     - run: aws s3 sync ./build s3://$(WEBHOSTING_BUCKET_NAME)/
 ```
+
+## Automatic Updates
+
+The `v10`, `v12` and `v14` branches are set up to automatically trigger a new build in Docker Hub. Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch so that a new image is published.
