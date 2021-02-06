@@ -1,9 +1,6 @@
-FROM node:10
+FROM node:12
 
-RUN apt-get update && apt-get install -y python3
-RUN curl -sO https://bootstrap.pypa.io/get-pip.py
-RUN python3 get-pip.py
-
-RUN pip install awscli
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip
+RUN ./aws/install && aws --version
 
 CMD ["node"]
