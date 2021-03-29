@@ -6,14 +6,14 @@ Lambda-compatible NodeJS images with AWS CLI installed.
 
 ## Usage in CI/CD environments
 
-Instead of using e.g. `node:12` and installing `awscli` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli` with the appropriate version tag. Tags are named after the Lambda NodeJS runtime identifier.
+Instead of using e.g. `node:14` and installing `awscli`, `jq`, and `zip` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli` with the appropriate version tag. Tags are named after the [Lambda NodeJS runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) identifier.
 
 ### Bitbucket Pipelines
 
 In `bitbucket-pipelines.yml`:
 
 ```yaml
-image: sleavely/node-awscli:12.x
+image: sleavely/node-awscli:14.x
 
 pipelines:
   default:
@@ -34,7 +34,7 @@ version: 2
 jobs:
   deploy:
     docker:
-      - image: sleavely/node-awscli:12.x
+      - image: sleavely/node-awscli:14.x
     steps:
     - checkout
     - run: npm install
