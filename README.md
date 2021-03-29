@@ -42,6 +42,32 @@ jobs:
     - run: aws s3 sync ./build s3://$(WEBHOSTING_BUCKET_NAME)/
 ```
 
+### Github Actions
+
+In `.github/worksflows/deploy.yml`:
+
+```yaml
+name: Build and deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: sleavely/node-awscli:14.x
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm install
+    - run: npm run build-app-test
+    - run: aws s3 sync ./build s3://$(WEBHOSTING_BUCKET_NAME)/
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        WEBHOSTING_BUCKET_NAME: my-awesome-bucket
+```
+
 ## Automatic Updates
 
 The `v10`, `v12` and `v14` branches are set up to automatically trigger a new build in Docker Hub. Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch so that a new image is published.
