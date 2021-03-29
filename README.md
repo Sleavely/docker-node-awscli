@@ -4,16 +4,20 @@ Lambda-compatible NodeJS images with AWS CLI installed.
 
 [Docker Hub](https://hub.docker.com/r/sleavely/node-awscli) | [Github](https://github.com/Sleavely/docker-node-awscli)
 
+## Automatic Updates
+
+The version-specific branches (`v10`, `v12` and `v14`) are set up to automatically trigger a new build in Docker Hub. Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch so that a new image is published.
+
 ## Usage in CI/CD environments
 
-Instead of using e.g. `node:12` and installing `awscli` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli` with the appropriate version tag. Tags are named after the Lambda NodeJS runtime identifier.
+Instead of using e.g. `node:14` and installing `awscli`, `jq`, and `zip` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli` with the appropriate version tag. Tags are named after the [Lambda NodeJS runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) identifier.
 
 ### Bitbucket Pipelines
 
 In `bitbucket-pipelines.yml`:
 
 ```yaml
-image: sleavely/node-awscli:12.x
+image: sleavely/node-awscli:14.x
 
 pipelines:
   default:
@@ -34,7 +38,7 @@ version: 2
 jobs:
   deploy:
     docker:
-      - image: sleavely/node-awscli:12.x
+      - image: sleavely/node-awscli:14.x
     steps:
     - checkout
     - run: npm install
@@ -42,6 +46,28 @@ jobs:
     - run: aws s3 sync ./build s3://$(WEBHOSTING_BUCKET_NAME)/
 ```
 
-## Automatic Updates
+### Github Actions
 
-The `v10`, `v12` and `v14` branches are set up to automatically trigger a new build in Docker Hub. Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch so that a new image is published.
+In `.github/worksflows/deploy.yml`:
+
+```yaml
+name: Build and deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: sleavely/node-awscli:14.x
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm install
+    - run: npm run build-app-test
+    - run: aws s3 sync ./build s3://$(WEBHOSTING_BUCKET_NAME)/
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        WEBHOSTING_BUCKET_NAME: my-awesome-bucket
+```
