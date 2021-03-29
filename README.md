@@ -4,6 +4,10 @@ Lambda-compatible NodeJS images with AWS CLI installed.
 
 [Docker Hub](https://hub.docker.com/r/sleavely/node-awscli) | [Github](https://github.com/Sleavely/docker-node-awscli)
 
+## Automatic Updates
+
+The version-specific branches (`v10`, `v12` and `v14`) are set up to automatically trigger a new build in Docker Hub. Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch so that a new image is published.
+
 ## Usage in CI/CD environments
 
 Instead of using e.g. `node:14` and installing `awscli`, `jq`, and `zip` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli` with the appropriate version tag. Tags are named after the [Lambda NodeJS runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) identifier.
@@ -67,7 +71,3 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         WEBHOSTING_BUCKET_NAME: my-awesome-bucket
 ```
-
-## Automatic Updates
-
-The `v10`, `v12` and `v14` branches are set up to automatically trigger a new build in Docker Hub. Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch so that a new image is published.
