@@ -1,9 +1,9 @@
-name: sleavely/node-awscli:14.x
+name: sleavely/node-awscli:16.x
 
 on:
   push:
     branches:
-      - 'v14'
+      - 'v16'
 
 jobs:
   docker:
@@ -25,4 +25,4 @@ jobs:
         with:
           pull: true
           push: true
-          tags: ${{ github.workflow }}
+          tags: ${{ github.workflow }},sleavely/node-awscli:latest

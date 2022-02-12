@@ -6,7 +6,7 @@ Lambda-compatible NodeJS images with AWS CLI installed.
 
 ## Automatic Updates
 
-The version-specific branches (`v10`, `v12` and `v14`) are set up to automatically trigger a new build in Docker Hub. Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch so that a new image is published.
+Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch (`v12` and `v14`, `v16`) so that a new image is published to Docker Hub by a Github Action workflow.
 
 ## Usage in CI/CD environments
 
