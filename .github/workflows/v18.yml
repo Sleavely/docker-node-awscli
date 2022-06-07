@@ -3,7 +3,7 @@ name: sleavely/node-awscli:18.x
 on:
   push:
     branches:
-      - 'v16'
+      - 'v18'
 
 jobs:
   docker:
