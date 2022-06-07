@@ -25,4 +25,4 @@ jobs:
         with:
           pull: true
           push: true
-          tags: ${{ github.workflow }},sleavely/node-awscli:latest
+          tags: ${{ github.workflow }}
