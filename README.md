@@ -10,7 +10,7 @@ Whenever a new NodeJS version is released, an instance of [`commit-on-release`](
 
 ## Usage in CI/CD environments
 
-Instead of using e.g. `node:14` and installing `awscli`, `jq`, and `zip` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli` with the appropriate version tag. Tags are named after the [Lambda NodeJS runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) identifier.
+Instead of using e.g. `node:14` and installing `awscli`, `jq`, and `zip` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli:18.x` or [another appropriate version tag](https://hub.docker.com/r/sleavely/node-awscli/tags).
 
 ### Bitbucket Pipelines
 
