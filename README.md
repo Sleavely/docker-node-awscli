@@ -6,25 +6,25 @@ Lambda-compatible NodeJS images with AWS CLI installed.
 
 ## Automatic Updates
 
-Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch (`v12` and `v14`, `v16`) so that a new image is published to Docker Hub by a Github Action workflow.
+Whenever a new NodeJS version is released, an instance of [`commit-on-release`](https://github.com/Sleavely/commit-on-release) creates an empty commit in the corresponding branch (`v16` and `v18`, `v20`) so that a new image is published to Docker Hub by a Github Action workflow.
 
 ## Usage in CI/CD environments
 
-Instead of using e.g. `node:14` and installing `awscli`, `jq`, and `zip` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli:18.x` or [another appropriate version tag](https://hub.docker.com/r/sleavely/node-awscli/tags).
+Instead of using e.g. `node:20` and installing `awscli`, `jq`, and `zip` every time the pipeline runs, just switch out the name of the image to `sleavely/node-awscli:20.x` or [another appropriate version tag](https://hub.docker.com/r/sleavely/node-awscli/tags).
 
 ### Bitbucket Pipelines
 
 In `bitbucket-pipelines.yml`:
 
 ```yaml
-image: sleavely/node-awscli:14.x
+image: sleavely/node-awscli:20.x
 
 pipelines:
   default:
     - step:
         name: Deploy to test environment
         script:
-          - npm install
+          - npm ci
           - npm run build-app-test
           - aws s3 sync ./build s3://$(WEBHOSTING_BUCKET_NAME)/
 ```
@@ -38,10 +38,10 @@ version: 2
 jobs:
   deploy:
     docker:
-      - image: sleavely/node-awscli:14.x
+      - image: sleavely/node-awscli:20.x
     steps:
     - checkout
-    - run: npm install
+    - run: npm ci
     - run: npm run build-app-test
     - run: aws s3 sync ./build s3://$(WEBHOSTING_BUCKET_NAME)/
 ```
@@ -60,10 +60,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     container:
-      image: sleavely/node-awscli:14.x
+      image: sleavely/node-awscli:20.x
     steps:
-    - uses: actions/checkout@v2
-    - run: npm install
+    - uses: actions/checkout@v3
+    - run: npm ci
     - run: npm run build-app-test
     - run: aws s3 sync ./build s3://$(WEBHOSTING_BUCKET_NAME)/
       env:
